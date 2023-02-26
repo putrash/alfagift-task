@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivPoster"
+        android:layout_width="260dp"
+        android:layout_height="140dp"
+        android:scaleType="centerCrop"
+        app:shapeAppearance="@style/ShapeAppearance.App.RoundedImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:src="@drawable/ic_launcher_background"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_marginTop="12dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1.Core"
+        app:layout_constraintTop_toBottomOf="@id/ivPoster"
+        app:layout_constraintStart_toStartOf="@id/ivPoster"
+        app:layout_constraintEnd_toEndOf="@id/ivPoster"
+        tools:text="Minions: The Rise of Gru"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvDuration"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="3h 24m \u2022 Sci-Fi"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2.Core"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintStart_toStartOf="@id/ivPoster"
+        app:layout_constraintEnd_toEndOf="@id/ivPoster"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

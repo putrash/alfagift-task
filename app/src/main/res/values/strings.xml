@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Alfagift Task</string>
+    <string name="label_duration_genre">%1$s \u2022 %2$s</string>
 </resources>

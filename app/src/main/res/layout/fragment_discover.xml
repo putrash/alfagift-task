@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+        
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4.Core"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Let's Relax and Discover a Movie"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLatestLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5.Core"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Latest Movies"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLatestMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1.Core"
+            app:layout_constraintTop_toTopOf="@id/tvLatestLabel"
+            app:layout_constraintBottom_toBottomOf="@id/tvLatestLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="?android:colorPrimary"
+            android:text="See More"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMovieLatest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/tvLatestLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/item_movie_latest"
+
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTopRatedLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5.Core"
+            app:layout_constraintTop_toBottomOf="@id/rvMovieLatest"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Top Rated Movies"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTopRatedMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1.Core"
+            app:layout_constraintTop_toTopOf="@id/tvTopRatedLabel"
+            app:layout_constraintBottom_toBottomOf="@id/tvTopRatedLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="?android:colorPrimary"
+            android:text="See More"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMovieTop"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/tvTopRatedLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/item_movie_top"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
