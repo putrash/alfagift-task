@@ -2,16 +2,17 @@ package co.saputra.alfagifttask.base
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseListAdapter<T, VB: ViewBinding, VH:RecyclerView.ViewHolder>(
+abstract class BasePagingAdapter<T : Any, VB: ViewBinding, VH: RecyclerView.ViewHolder>(
     private val layoutInflater: LayoutInflater,
     private val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB,
     diffCallback: DiffUtil.ItemCallback<T>
-) : ListAdapter<T, VH>(diffCallback) {
+) : PagingDataAdapter<T, VH>(diffCallback) {
 
     protected abstract fun itemViewHolder(
         viewBinding: VB,

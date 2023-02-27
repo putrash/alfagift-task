@@ -11,6 +11,7 @@ android {
         minSdk 21
         targetSdk 33
         buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/\"")
+        buildConfigField("String", "IMAGE_URL", "\"https://image.tmdb.org/t/p/w500/\"")
         buildConfigField("String", "API_KEY", "\"67bc74a4f7d063f93f5cd0414811258c\"")
     }
 
