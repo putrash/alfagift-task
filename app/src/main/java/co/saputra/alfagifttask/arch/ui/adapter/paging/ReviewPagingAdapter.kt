@@ -1,18 +1,20 @@
-package co.saputra.alfagifttask.arch.ui.adapter
+package co.saputra.alfagifttask.arch.ui.adapter.paging
 
+import android.content.Context
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.DiffUtil
-import co.saputra.alfagifttask.base.BaseListAdapter
 import co.saputra.alfagifttask.base.BasePagingAdapter
 import co.saputra.alfagifttask.base.BaseViewHolder
 import co.saputra.alfagifttask.databinding.ItemReviewBinding
-import com.bumptech.glide.RequestManager
+import com.bumptech.glide.Glide
+import com.putrash.common.Constant
+import com.putrash.common.convertDate
+import com.putrash.common.handleAvatar
 import com.putrash.data.model.Review
 
 class ReviewPagingAdapter(
     layoutInflater: LayoutInflater,
-    private val glide: RequestManager,
-    private val onClickListener: (Review) -> Unit
+    private val context: Context,
 ) : BasePagingAdapter<Review, ItemReviewBinding, ReviewPagingAdapter.ViewHolder>(
     layoutInflater,
     ItemReviewBinding::inflate,
@@ -33,7 +35,11 @@ class ReviewPagingAdapter(
             binding.apply {
                 tvName.text = item.author
                 tvContent.text = item.content
-                tvReview.text = item.authorDetails.rating.toString()
+                tvReview.text = (item.authorDetails.rating ?: 0.0f).toString()
+                tvDate.text = item.updatedAt?.convertDate(Constant.DATE_FULL_FORMAT, Constant.DATE_DD_MMMM_YYYY_FORMAT)
+                Glide.with(context)
+                    .load(item.authorDetails.avatarPath.handleAvatar())
+                    .into(ivAvatar)
             }
         }
     }

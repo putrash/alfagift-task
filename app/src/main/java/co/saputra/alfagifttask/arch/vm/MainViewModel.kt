@@ -2,6 +2,7 @@ package co.saputra.alfagifttask.arch.vm
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -13,6 +14,7 @@ import co.saputra.alfagifttask.arch.paging.TopRatedMoviePagingSource
 import co.saputra.alfagifttask.base.BaseViewModel
 import com.putrash.data.Api
 import com.putrash.data.BuildConfig
+import com.putrash.data.model.Genre
 import com.putrash.data.model.Movie
 import com.putrash.data.model.Review
 import com.putrash.data.model.Video
@@ -34,7 +36,11 @@ class MainViewModel(private val api: Api) : BaseViewModel() {
     private val _videosMovie = MutableLiveData<ArrayList<Video>>()
     val videosMovie : LiveData<ArrayList<Video>> get() = _videosMovie
 
+    private val _detailMovie = MutableLiveData<Movie>()
+    val detailMovie : LiveData<Movie> get() = _detailMovie
+
     private val reviewId = MutableLiveData<Int>()
+    private val genresMovie = MutableLiveData<ArrayList<Genre>>()
 
     private lateinit var _reviewsFlow: Flow<PagingData<Review>>
     val reviewsFlow: Flow<PagingData<Review>> get() = _reviewsFlow
@@ -45,69 +51,123 @@ class MainViewModel(private val api: Api) : BaseViewModel() {
     private lateinit var _moviesTopRatedFlow: Flow<PagingData<Movie>>
     val moviesTopRatedFlow: Flow<PagingData<Movie>> get() = _moviesTopRatedFlow
 
-    init {
-        getAllReviews()
-        getAllPlayingNowMovies()
-        getAllTopRatedMovies()
-    }
-
     fun setReviewId(id: Int) {
         reviewId.value = id
     }
 
-    private fun getAllReviews() = launchPagingAsync({
+    fun getAllReviews() = launchPagingAsync({
         Pager(config = PagingConfig(pageSize = 20, prefetchDistance = 2),
-            pagingSourceFactory = { ReviewPagingSource(api, reviewId.value!!) }
+            pagingSourceFactory = { ReviewPagingSource(api, reviewId.value) }
         ).flow.cachedIn(viewModelScope)
     }, {
         _reviewsFlow = it
     })
 
-    private fun getAllPlayingNowMovies() = launchPagingAsync({
+    fun getAllPlayingNowMovies() = launchPagingAsync({
         Pager(config = PagingConfig(pageSize = 20, prefetchDistance = 2),
-            pagingSourceFactory = { PlayingNowMoviePagingSource(api) }
+            pagingSourceFactory = { PlayingNowMoviePagingSource(api, genresMovie.value) }
         ).flow.cachedIn(viewModelScope)
     }, {
         _moviesPlayingNowFlow = it
     })
 
-    private fun getAllTopRatedMovies() = launchPagingAsync({
+    fun getAllTopRatedMovies() = launchPagingAsync({
         Pager(config = PagingConfig(pageSize = 20, prefetchDistance = 2),
-            pagingSourceFactory = { TopRatedMoviePagingSource(api) }
+            pagingSourceFactory = { TopRatedMoviePagingSource(api, genresMovie.value) }
         ).flow.cachedIn(viewModelScope)
     }, {
         _moviesTopRatedFlow = it
     })
 
     fun getPlayingNowMovies(page: Int = 1) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                showLoading()
-                val data = arrayListOf<Movie>()
-                val response = api.getNowPlayingMovies(BuildConfig.API_KEY, page)
-                if (response.isSuccessful) {
-                    data.addAll(response.body()!!.results)
+        genresMovie.observeForever(object : Observer<ArrayList<Genre>> {
+            override fun onChanged(genres: ArrayList<Genre>?) {
+                genresMovie.removeObserver(this)
+                viewModelScope.launch(Dispatchers.IO) {
+                    try {
+                        showLoading()
+                        val data = arrayListOf<Movie>()
+                        val response = api.getNowPlayingMovies(BuildConfig.API_KEY, page)
+                        if (response.isSuccessful) {
+                            response.body()!!.results.map { item ->
+                                data.add(Movie(
+                                    id = item.id,
+                                    posterPath = item.posterPath,
+                                    adult = item.adult,
+                                    overview = item.overview,
+                                    releaseDate = item.releaseDate,
+                                    genreIds = item.genreIds,
+                                    originalTitle = item.originalTitle,
+                                    title = item.title,
+                                    backdropPath = item.backdropPath,
+                                    video = item.video,
+                                    voteAverage = item.voteAverage,
+                                    genres = genresMovie.value?.filter { item.genreIds.contains(it.id) }
+                                ))
+                            }
+                        }
+                        _moviesPlayingNow.postValue(data)
+                    } catch (throwable: Throwable) {
+                        throwable.printStackTrace()
+                        showError(throwable.message.toString())
+                    } finally {
+                        hideLoading()
+                    }
                 }
-                _moviesPlayingNow.postValue(data)
-            } catch (throwable: Throwable) {
-                throwable.printStackTrace()
-                showError(throwable.message.toString())
-            } finally {
-                hideLoading()
             }
-        }
+        })
     }
 
     fun getTopRatedMovies(page: Int = 1) {
+        genresMovie.observeForever(object : Observer<ArrayList<Genre>> {
+            override fun onChanged(genres: ArrayList<Genre>?) {
+                genresMovie.removeObserver(this)
+                viewModelScope.launch(Dispatchers.IO) {
+                    try {
+                        showLoading()
+                        val data = arrayListOf<Movie>()
+                        val response = api.getTopRatedMovies(BuildConfig.API_KEY, page)
+                        if (response.isSuccessful) {
+                            response.body()!!.results.map { item ->
+                                data.add(Movie(
+                                    id = item.id,
+                                    posterPath = item.posterPath,
+                                    adult = item.adult,
+                                    overview = item.overview,
+                                    releaseDate = item.releaseDate,
+                                    genreIds = item.genreIds,
+                                    originalTitle = item.originalTitle,
+                                    title = item.title,
+                                    backdropPath = item.backdropPath,
+                                    video = item.video,
+                                    voteAverage = item.voteAverage,
+                                    genres = genresMovie.value?.filter { item.genreIds.contains(it.id) }
+                                ))
+                            }
+                        }
+                        _moviesTopRated.postValue(data)
+                    } catch (throwable: Throwable) {
+                        throwable.printStackTrace()
+                        showError(throwable.message.toString())
+                    } finally {
+                        hideLoading()
+                    }
+                }
+            }
+
+        })
+    }
+
+    fun getMovieDetail(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 showLoading()
-                val data = arrayListOf<Movie>()
-                val response = api.getTopRatedMovies(BuildConfig.API_KEY, page)
+                var data = Movie()
+                val response = api.getMovieDetail(id, BuildConfig.API_KEY)
                 if (response.isSuccessful) {
-                    data.addAll(response.body()!!.results)
+                    data = response.body()!!
                 }
-                _moviesTopRated.postValue(data)
+                _detailMovie.postValue(data)
             } catch (throwable: Throwable) {
                 throwable.printStackTrace()
                 showError(throwable.message.toString())
@@ -146,6 +206,25 @@ class MainViewModel(private val api: Api) : BaseViewModel() {
                     data.addAll(response.body()!!.results)
                 }
                 _videosMovie.postValue(data)
+            } catch (throwable: Throwable) {
+                throwable.printStackTrace()
+                showError(throwable.message.toString())
+            } finally {
+                hideLoading()
+            }
+        }
+    }
+
+    fun getMovieGenre() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                showLoading()
+                val data = arrayListOf<Genre>()
+                val response = api.getGenres(BuildConfig.API_KEY)
+                if (response.isSuccessful) {
+                    data.addAll(response.body()!!.results)
+                }
+                genresMovie.postValue(data)
             } catch (throwable: Throwable) {
                 throwable.printStackTrace()
                 showError(throwable.message.toString())

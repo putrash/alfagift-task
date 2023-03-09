@@ -6,11 +6,11 @@ import com.putrash.data.Api
 import com.putrash.data.BuildConfig
 import com.putrash.data.model.Review
 
-class ReviewPagingSource(private val api: Api, private val id: Int) : PagingSource<Int, Review>() {
+class ReviewPagingSource(private val api: Api, private val id: Int?) : PagingSource<Int, Review>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Review> {
         val pageNumber = params.key ?: 1
         return try {
-            val response = api.getMovieReviews(id, BuildConfig.API_KEY, pageNumber)
+            val response = api.getMovieReviews((id ?: 1), BuildConfig.API_KEY, pageNumber)
             val pagedResponse = response.body()
             val data = pagedResponse?.results
 

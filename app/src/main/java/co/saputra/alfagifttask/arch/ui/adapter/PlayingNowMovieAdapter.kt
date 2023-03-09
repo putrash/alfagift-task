@@ -1,27 +1,26 @@
 package co.saputra.alfagifttask.arch.ui.adapter
 
-import android.util.Log
+import android.content.Context
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.DiffUtil
 import co.saputra.alfagifttask.base.BaseListAdapter
 import co.saputra.alfagifttask.base.BaseViewHolder
-import co.saputra.alfagifttask.databinding.ItemMovieLatestBinding
-import co.saputra.alfagifttask.databinding.ItemMovieTopBinding
-import com.bumptech.glide.RequestManager
+import co.saputra.alfagifttask.databinding.ItemMoviePlayingBinding
+import com.bumptech.glide.Glide
 import com.putrash.data.BuildConfig
 import com.putrash.data.model.Movie
 
-class LatestMovieAdapter(
+class PlayingNowMovieAdapter(
     layoutInflater: LayoutInflater,
-    private val glide: RequestManager,
+    private val context: Context,
     private val onClickListener: (Movie) -> Unit
-) : BaseListAdapter<Movie, ItemMovieLatestBinding, LatestMovieAdapter.ViewHolder>(
+) : BaseListAdapter<Movie, ItemMoviePlayingBinding, PlayingNowMovieAdapter.ViewHolder>(
     layoutInflater,
-    ItemMovieLatestBinding::inflate,
+    ItemMoviePlayingBinding::inflate,
     MovieDiffcallback
 ) {
 
-    override fun itemViewHolder(viewBinding: ItemMovieLatestBinding, viewType: Int): ViewHolder {
+    override fun itemViewHolder(viewBinding: ItemMoviePlayingBinding, viewType: Int): ViewHolder {
         return ViewHolder(viewBinding)
     }
 
@@ -29,15 +28,15 @@ class LatestMovieAdapter(
         holder.onBind(getItem(position))
     }
 
-    inner class ViewHolder(private val binding: ItemMovieLatestBinding) : BaseViewHolder<Movie>(binding.root) {
+    inner class ViewHolder(private val binding: ItemMoviePlayingBinding) : BaseViewHolder<Movie>(binding.root) {
         override fun onBind(item: Movie) {
             binding.apply {
                 root.setOnClickListener {
                     onClickListener(item)
                 }
                 tvTitle.text = item.title
-                // tvDuration.text = item.
-                glide
+                tvGenre.text = item.genres?.map { it.name }?.joinToString(", ")
+                Glide.with(context)
                     .load(BuildConfig.IMAGE_URL + item.posterPath)
                     .into(ivPoster)
             }
