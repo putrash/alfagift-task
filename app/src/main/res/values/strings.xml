@@ -1,4 +1,22 @@
 <resources>
     <string name="app_name">Alfagift Task</string>
-    <string name="label_duration_genre">%1$s \u2022 %2$s</string>
+
+    <string name="label_discover">Let\'s Relax and Discover a Movie</string>
+    <string name="label_playing_now">Playing Now</string>
+    <string name="label_top_rated">Top Rated Movies</string>
+    <string name="label_subtitle">%1$s \u2022 %2$s</string>
+    <string name="label_subtitle_long">%1$s \u2022 %2$s \u2022 %3$s</string>
+    <string name="label_review">Review</string>
+    <string name="label_see_more">See More</string>
+    <string name="label_adult">18+</string>
+    <string name="label_not_adult">13+</string>
+
+    <string name="empty_review">There is no review for this movie.</string>
+
+    <string name="title_playing_now">Playing Now Movies</string>
+    <string name="title_top_rated">Top Rated Movies</string>
+    <string name="title_reviews">All Reviews</string>
+
+    <string name="uri_app_youtube">vnd.youtube:%1$s</string>
+    <string name="uri_web_youtube">http://www.youtube.com/watch?v=%1$s</string>
 </resources>

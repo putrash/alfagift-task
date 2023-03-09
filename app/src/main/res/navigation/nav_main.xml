@@ -21,7 +21,11 @@
         android:id="@+id/detailFragment"
         android:name="co.saputra.alfagifttask.arch.ui.detail.DetailFragment"
         android:label="DetailFragment"
-        tools:layout="@layout/fragment_detail"/>
+        tools:layout="@layout/fragment_detail">
+        <action
+            android:id="@+id/action_detailFragment_to_reviewListFragment"
+            app:destination="@id/reviewListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/movieListFragment"
         android:name="co.saputra.alfagifttask.arch.ui.list.MovieListFragment"
@@ -31,4 +35,9 @@
             android:id="@+id/action_movieListFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/reviewListFragment"
+        android:name="co.saputra.alfagifttask.arch.ui.list.ReviewListFragment"
+        android:label="ReviewListFragment"
+        tools:layout="@layout/fragment_review_list"/>
 </navigation>

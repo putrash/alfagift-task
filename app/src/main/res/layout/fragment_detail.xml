@@ -18,16 +18,44 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="false">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivPoster"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="360dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_launcher_background"
-                />
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivPoster"
+                    android:layout_width="match_parent"
+                    android:layout_height="360dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/ic_launcher_background"
+                    />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/bg_mask"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivPlay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_play"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -72,6 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginHorizontal="16dp"
+                android:textSize="11sp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2.Core"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle"
                 app:layout_constraintStart_toStartOf="parent"
@@ -88,6 +117,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvDetail"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2.Core"
                 tools:text="@tools:sample/lorem/random"
                 />
 
@@ -100,24 +130,108 @@
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5.Core"
                 app:layout_constraintTop_toBottomOf="@id/tvContent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:text="Review"
+                android:text="@string/label_review"
                 />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvReview"
-                android:layout_width="0dp"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvReviewMore"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:orientation="vertical"
-                android:layout_marginHorizontal="8dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1.Core"
+                app:layout_constraintTop_toTopOf="@id/tvReviewLabel"
+                app:layout_constraintBottom_toBottomOf="@id/tvReviewLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginHorizontal="16dp"
+                android:textColor="?android:colorPrimary"
+                android:text="@string/label_see_more"
+                android:visibility="gone"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvReviewEmpty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="48dp"
+                android:layout_marginHorizontal="16dp"
+                android:textStyle="bold"
+                android:text="@string/empty_review"
                 app:layout_constraintTop_toBottomOf="@id/tvReviewLabel"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:listitem="@layout/item_review"
-                tools:itemCount="2"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1.Core"
+                android:visibility="gone"
                 />
+            
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/groupReview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="ivAvatar, tvDate, tvReviewName, tvReviewContent, tvReview"
+                />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleType="centerCrop"
+                app:shapeAppearance="@style/ShapeAppearance.App.CircleImageView"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvReviewLabel"
+                tools:src="@drawable/ic_launcher_background"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvReviewName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@id/ivAvatar"
+                app:layout_constraintStart_toEndOf="@id/ivAvatar"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1.Core"
+                tools:text="@tools:sample/full_names"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="11sp"
+                app:layout_constraintTop_toBottomOf="@id/tvReviewName"
+                app:layout_constraintStart_toStartOf="@id/tvReviewName"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2.Core"
+                tools:text="24 Jun 2020"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/tvReview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/ivAvatar"
+                app:layout_constraintBottom_toBottomOf="@id/ivAvatar"
+                android:layout_marginHorizontal="16dp"
+                tools:text="9.5"
+                style="@style/Widget.AppCompat.Button.Review"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvReviewContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2.Core"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivAvatar"
+                tools:text="@tools:sample/lorem" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

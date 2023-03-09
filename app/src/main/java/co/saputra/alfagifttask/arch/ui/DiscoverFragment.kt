@@ -5,41 +5,42 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import co.saputra.alfagifttask.R
-import co.saputra.alfagifttask.arch.ui.adapter.LatestMovieAdapter
-import co.saputra.alfagifttask.arch.ui.adapter.TopMovieAdapter
+import co.saputra.alfagifttask.arch.ui.adapter.PlayingNowMovieAdapter
+import co.saputra.alfagifttask.arch.ui.adapter.TopRatedMovieAdapter
 import co.saputra.alfagifttask.arch.vm.MainViewModel
 import co.saputra.alfagifttask.base.BaseFragment
 import co.saputra.alfagifttask.databinding.FragmentDiscoverBinding
-import com.bumptech.glide.Glide
+import com.putrash.common.Constant
 import com.putrash.data.model.Movie
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class DiscoverFragment : BaseFragment<FragmentDiscoverBinding, MainViewModel>(
     FragmentDiscoverBinding::inflate
 ) {
-    override val viewModel: MainViewModel by viewModel()
+    override val viewModel: MainViewModel by sharedViewModel()
     private val adapterTopMovie by lazy {
-        TopMovieAdapter(layoutInflater, Glide.with(requireContext()), ::onItemClick)
+        TopRatedMovieAdapter(layoutInflater, requireContext(), ::onItemClick)
     }
     private val adapterLatestMovie by lazy {
-        LatestMovieAdapter(layoutInflater, Glide.with(requireContext()), ::onItemClick)
+        PlayingNowMovieAdapter(layoutInflater, requireContext(), ::onItemClick)
     }
 
     override fun initView(view: View, savedInstaceState: Bundle?) {
         binding.apply {
             rvMovieTop.adapter = adapterTopMovie
-            rvMovieLatest.adapter = adapterLatestMovie
-            tvLatestMore.setOnClickListener {
-                val bundle = bundleOf("type" to "playing_now")
+            rvMoviePlayingNow.adapter = adapterLatestMovie
+            tvPlayingNowMore.setOnClickListener {
+                val bundle = bundleOf(Constant.KEY_TYPE to Constant.TYPE_PLAYING_NOW)
                 findNavController()
                     .navigate(R.id.action_discoverFragment_to_movieListFragment, bundle)
             }
             tvTopRatedMore.setOnClickListener {
-                val bundle = bundleOf("type" to "top_rated")
+                val bundle = bundleOf(Constant.KEY_TYPE to Constant.TYPE_TOP_RATED)
                 findNavController()
                     .navigate(R.id.action_discoverFragment_to_movieListFragment, bundle)
             }
         }
+        viewModel.getMovieGenre()
         viewModel.getPlayingNowMovies()
         viewModel.getTopRatedMovies()
     }
@@ -55,7 +56,7 @@ class DiscoverFragment : BaseFragment<FragmentDiscoverBinding, MainViewModel>(
     }
 
     private fun onItemClick(movie: Movie) {
-        val bundle = bundleOf("movie" to movie)
+        val bundle = bundleOf(Constant.KEY_MOVIE to movie.id)
         findNavController()
             .navigate(R.id.action_discoverFragment_to_detailFragment, bundle)
     }

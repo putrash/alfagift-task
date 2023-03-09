@@ -10,6 +10,7 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 33
+        buildConfigField("String", "IMAGE_URL", "\"https://image.tmdb.org/t/p/w500/\"")
     }
 
     compileOptions {
