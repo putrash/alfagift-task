@@ -3,10 +3,10 @@
 ## Preview
 Here are the preview of the app,
 
-![](https://i.ibb.co/Jd8tBm9/photo-6077953966446064554-y.png)
-![](https://i.ibb.co/MMmPDPv/photo-6077953966446064555-y.png)
-![](https://i.ibb.co/6DczmHM/photo-6077953966446064556-y.png)
-![](https://i.ibb.co/r7vqwsG/photo-6077953966446064553-y.png)
+![](https://i.ibb.co/cvR3gkj/photo-6077953966446064554-y.png)
+![](https://i.ibb.co/wMfpNpk/photo-6077953966446064555-y.png)
+![](https://i.ibb.co/sspn2Kf/photo-6077953966446064556-y.png)
+![](https://i.ibb.co/Rv7tDyp/photo-6077953966446064553-y.png)
 
 ## Features
 There are some such features like,
