@@ -12,9 +12,9 @@ data class Review(
     val author: String? = "",
     @SerializedName("content")
     val content: String? = "",
-    @SerializedName("createdAt")
+    @SerializedName("created_at")
     val createdAt: String? = "",
-    @SerializedName("updatedAt")
+    @SerializedName("updated_at")
     val updatedAt: String? = "",
     @SerializedName("url")
     val url: String? = "",

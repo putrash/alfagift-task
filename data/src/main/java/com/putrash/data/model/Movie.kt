@@ -10,12 +10,16 @@ data class Movie(
     val id: Int = 1,
     @SerializedName("poster_path")
     val posterPath: String? = "",
+    @SerializedName("adult")
+    val adult: Boolean? = false,
     @SerializedName("overview")
     val overview: String? = "",
     @SerializedName("release_date")
     val releaseDate: String? = "",
+    @SerializedName("runtime")
+    val runtime: Int? = 0,
     @SerializedName("genre_ids")
-    val genreIds: ArrayList<Int>? = arrayListOf(),
+    val genreIds: ArrayList<Int> = arrayListOf(),
     @SerializedName("original_title")
     val originalTitle: String? = "",
     @SerializedName("title")
@@ -26,4 +30,6 @@ data class Movie(
     val video: Boolean? = false,
     @SerializedName("vote_average")
     val voteAverage: Float? = 0.0f,
+    @SerializedName("genres")
+    val genres: List<Genre>? = arrayListOf()
 ) : Parcelable

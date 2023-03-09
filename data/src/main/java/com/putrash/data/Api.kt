@@ -1,6 +1,5 @@
 package com.putrash.data
 
-import com.putrash.data.model.Genre
 import com.putrash.data.model.Movie
 import com.putrash.data.model.Review
 import com.putrash.data.model.Video
@@ -56,5 +55,5 @@ interface Api {
     suspend fun getGenres(
         @Query("api_key")
         apiKey: String,
-    ) : Response<Result<Genre>>
+    ) : Response<ResultGenre>
 }
